@@ -20,30 +20,37 @@ const TodoBuilder = ({ createTodo }) => {
     setTodo(e.target.value);
   };
 
-  const handleSubmitTodo = useCallback(() => {
-    if (todo) {
-      createTodo(todo);
-      setTodo('');
-    }
-  }, [todo, createTodo]);
+  const handleSubmitTodo = useCallback(
+    event => {
+      event.preventDefault();
+      if (todo) {
+        createTodo(todo);
+        setTodo('');
+      }
+    },
+    [todo, createTodo]
+  );
 
   return (
-    <Grid container alignItems="center" spacing={2} classes={{ root: classes.wrapper }}>
-      <Grid item xs={8} sm={10}>
-        <Input label="New todo" value={todo} onChange={handleChangeTodo} fullWidth />
+    <form noValidate autoComplete="off" onSubmit={handleSubmitTodo}>
+      <Grid container alignItems="center" spacing={2} classes={{ root: classes.wrapper }}>
+        <Grid item xs={8} sm={10}>
+          <Input label="New todo" value={todo} onChange={handleChangeTodo} fullWidth />
+        </Grid>
+        <Grid item xs={4} sm={2}>
+          <Button
+            fullWidth
+            variant="outlined"
+            color="primary"
+            disabled={!todo}
+            onClick={handleSubmitTodo}
+            classes={{ root: classes.button }}
+          >
+            + add
+          </Button>
+        </Grid>
       </Grid>
-      <Grid item xs={4} sm={2}>
-        <Button
-          fullWidth
-          variant="outlined"
-          color="primary"
-          onClick={handleSubmitTodo}
-          classes={{ root: classes.button }}
-        >
-          + add
-        </Button>
-      </Grid>
-    </Grid>
+    </form>
   );
 };
 

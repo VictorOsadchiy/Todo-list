@@ -1,3 +1,4 @@
+import { CircularProgress, Grid } from '@material-ui/core';
 import Filter from 'components/Filter';
 import TodoItem from 'components/TodoItem';
 import React, { useState } from 'react';
@@ -12,7 +13,7 @@ import {
 } from 'redux/actions';
 
 export const TodoList = () => {
-  const { todos } = useSelector(state => state.todos);
+  const { todos, loading } = useSelector(state => state.todos);
   const dispatch = useDispatch();
   const [todoData, setTodoData] = useState(todos);
 
@@ -51,15 +52,21 @@ export const TodoList = () => {
         deleteCompleted={handleDeleteCompleted}
         markAllAsDone={handleMarkAllAsDone}
       />
-      {todoData.map(todo => (
-        <TodoItem
-          todo={todo}
-          key={todo.id}
-          deleteTodo={() => handleDeleteTodo(todo.id)}
-          editTodo={handleEditTodo}
-          changeTodoStatus={e => handleChangeTodoStatus(e, todo.id)}
-        />
-      ))}
+      {loading ? (
+        <Grid container alignItems="center" justify="center">
+          <CircularProgress />
+        </Grid>
+      ) : (
+        todoData.map(todo => (
+          <TodoItem
+            todo={todo}
+            key={todo.id}
+            deleteTodo={() => handleDeleteTodo(todo.id)}
+            editTodo={handleEditTodo}
+            changeTodoStatus={e => handleChangeTodoStatus(e, todo.id)}
+          />
+        ))
+      )}
     </div>
   );
 };

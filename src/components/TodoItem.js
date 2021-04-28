@@ -28,12 +28,14 @@ const TodoItem = ({ todo, editTodo, deleteTodo, changeTodoStatus }) => {
         </Grid>
         <Grid item xs={10} sm={11}>
           {editing ? (
-            <Input
-              value={todoValue}
-              onChange={e => setTodoValue(e.target.value)}
-              onBlur={handleBlur}
-              fullWidth
-            />
+            <form noValidate autoComplete="off" onSubmit={handleBlur}>
+              <Input
+                value={todoValue}
+                onChange={e => setTodoValue(e.target.value)}
+                onBlur={handleBlur}
+                fullWidth
+              />
+            </form>
           ) : (
             <Grid container alignItems="center">
               <div style={{ flex: 1 }}>{todo.text}</div>

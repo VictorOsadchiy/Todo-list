@@ -9,13 +9,8 @@ const Todo = () => {
   const { todos } = useSelector(state => state.todos);
   const dispatch = useDispatch();
 
-  const activeTodos = useMemo(() => {
-    return todos.filter(todo => !todo.completed);
-  }, [todos]);
-
-  const completedTodos = useMemo(() => {
-    return todos.filter(todo => todo.completed);
-  }, [todos]);
+  const activeTodos = useMemo(() => todos.filter(todo => !todo.completed).length, [todos]);
+  const completedTodos = useMemo(() => todos.filter(todo => todo.completed).length, [todos]);
 
   useEffect(() => {
     dispatch(getTodosAction());
@@ -28,11 +23,11 @@ const Todo = () => {
   return (
     <Container maxWidth="sm">
       <Grid container direction="column" justify="center" alignItems="center">
-        <Typography variant="h3">TODO LIST</Typography>
+        <Typography variant="h4">TODO LIST</Typography>
         <Grid container justify="space-evenly" alignItems="center">
-          <Typography variant="body1">{`All todos: ${todos.length}`}</Typography>
-          <Typography variant="body1">{`Active todos: ${activeTodos.length}`}</Typography>
-          <Typography variant="body1">{`Completed todos: ${completedTodos.length}`}</Typography>
+          <Typography variant="body1">{`All todos: ${todos.length || '-'}`}</Typography>
+          <Typography variant="body1">{`Uncompleted todos: ${activeTodos || '-'}`}</Typography>
+          <Typography variant="body1">{`Completed todos: ${completedTodos || '-'}`}</Typography>
         </Grid>
       </Grid>
       <TodoBuilder createTodo={handleCreateTodo} />
